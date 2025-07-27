@@ -9,19 +9,19 @@ import { Button } from './components/ui/button';
 export default function Home() {
   const testimonials = [
   {
-    quote: `“Reduced our medicine wastage by 60% with smart expiry alerts - a true lifesaver for our pharmacy!”`,
+    quote: "Reduced our medicine wastage by 60% with smart expiry alerts - a true lifesaver for our pharmacy!",
     author: "Dr. Sharma, MedLife Pharmacy"
   },
   {
-    quote: `“Image-to-bill feature cut our billing time in half - customers love the speed and accuracy!”`,
+    quote: "Image-to-bill feature cut our billing time in half - customers love the speed and accuracy!",
     author: "Rajesh Kumar, City Medicos"
   },
   {
-    quote: `“GST compliance became effortless with automated reports - saved us countless hours during tax season.”`,
+    quote: "GST compliance became effortless with automated reports - saved us countless hours during tax season.",
     author: "Priya Nair, HealthPlus Pharmacy"
   },
   {
-    quote: `“The inventory insights helped us optimize stock levels and increase profit margins by 22%.”`,
+    quote: "The inventory insights helped us optimize stock levels and increase profit margins by 22%.",
     author: "Amit Patel, Care Pharmacy"
   }
 ];
