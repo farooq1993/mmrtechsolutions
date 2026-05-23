@@ -1,218 +1,349 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import CountUp from "react-countup";
+import { useState, useRef } from "react";
 
-const services = [
-  {
-    title: "Custom Software Development",
-    desc: "Build scalable web, mobile, and enterprise applications tailored to your business. Enhance efficiency, automate processes, and drive growth.",
-    icon: "💻",
-  },
-  {
-    title: "Cloud & DevOps Solutions",
-    desc: "Deploy secure and scalable cloud infrastructure with automated DevOps pipelines, monitoring, and 24/7 support.",
-    icon: "☁️",
-  },
-  {
-    title: "AI & Data Analytics",
-    desc: "Leverage AI-driven insights and predictive analytics to make informed business decisions and optimize operations.",
-    icon: "🤖",
-  },
-  {
-    title: "Business Consulting & Strategy",
-    desc: "Transform your business with expert consulting, digital strategy, process optimization, and technology planning.",
-    icon: "📈",
-  },
+const NAV_LINKS = [
+  { label: "Features", href: "#features" },
+  { label: "How It Works", href: "#how" },
+  { label: "Why Us", href: "#why" },
+  { label: "Compliance", href: "#compliance" },
+  { label: "Contact", href: "#contact" },
 ];
 
-const products = [
+const FEATURES = [
   {
-    title: "Pharmacy Management Suite",
-    img: "https://www.sitsolutions.co/images/pharma1.png",
-    url: "https://pharmacy-demo.mmrtech.com/dashboard",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+    ),
+    title: "Smart POS Billing",
+    desc: "Lightning-fast point-of-sale with barcode scanning, GST-compliant invoices, and all payment modes including UPI, card and cash.",
+    tag: "Pharmacy POS",
   },
   {
-    title: "Inventory & Billing Software",
-    img: "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-b16c-61fa-ab4c-f013d4bafd88/raw?se=2025-09-27T09%3A04%3A43Z",
-    url: "https://pharmacy-demo.mmrtech.com/billing",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8l-1 4h10l-1-4z"/>
+      </svg>
+    ),
+    title: "Drug Inventory Control",
+    desc: "Real-time stock tracking with batch numbers, expiry alerts, and low-stock notifications so you never run out of critical medicines.",
+    tag: "Drug Inventory",
   },
   {
-    title: "Customer Relationship Tool",
-    img: "https://www.shutterstock.com/image-photo/doctor-working-on-mobile-smart-phone-2153349189",
-    url: "#",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      </svg>
+    ),
+    title: "Prescription Management",
+    desc: "Digital prescription capture, complete patient medication history, and automatic refill reminders for chronic patients.",
+    tag: "Rx Management",
   },
   {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+      </svg>
+    ),
+    title: "GST & Financial Reports",
+    desc: "Auto-generated GSTR-1, GSTR-3B, daily sales summaries, and profit-loss dashboards — all in one place.",
+    tag: "GST Compliance",
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+      </svg>
+    ),
+    title: "Patient & CRM Module",
+    desc: "Complete patient profiles, purchase history, loyalty points, and automated WhatsApp/SMS reminders to boost retention.",
+    tag: "Patient Management",
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    ),
     title: "Analytics Dashboard",
-    img: "https://www.shutterstock.com/image-photo/close-factory-data-analyst-viewing-production-1099945574",
-    url: "#",
+    desc: "Visual sales trends, top-selling drugs, supplier performance, and margin analysis — all updated in real time.",
+    tag: "Pharma Analytics",
   },
 ];
 
-const stats = [
-  { value: 1200, label: "Clients Served Globally", color: "text-teal-400", suffix: "+" },
-  { value: 350, label: "Cities Covered", color: "text-blue-400", suffix: "+" },
-  { value: 25, label: "Products Developed", color: "text-purple-400" },
-  { value: 15, label: "Years of Experience", color: "text-orange-400" },
+const STEPS = [
+  { n: "01", title: "Sign Up Free", desc: "Create your account in under 2 minutes. No credit card required." },
+  { n: "02", title: "Import Your Data", desc: "Upload existing stock, supplier lists and patient records instantly." },
+  { n: "03", title: "Start Billing", desc: "Issue your first GST-compliant invoice on day one." },
+  { n: "04", title: "Grow Smarter", desc: "Use built-in analytics to optimize inventory and maximize profits." },
 ];
+
+const WHY = [
+  { title: "WhatsApp Integration", desc: "Send bills, refill reminders and offers directly to patients via WhatsApp." },
+  { title: "Drug Interaction Alerts", desc: "Automatic safety warnings for harmful drug combinations at the point of billing." },
+  { title: "Secure Cloud Backup", desc: "Daily encrypted cloud backups — your pharmacy data is always safe." },
+  { title: "Easy to Learn", desc: "Simple, intuitive interface — your entire staff trained within one day." },
+  { title: "Supplier Management", desc: "Track purchase orders, outstanding payments and complete supplier history." },
+  { title: "Dedicated Support", desc: "Personalised onboarding and priority support for every account." },
+];
+
+const BADGES = ["CDSCO Ready", "GST Compliant", "Schedule H / H1", "Narcotic Drug Logs"];
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+};
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-950 to-gray-900 text-white">
+    <main className="min-h-screen bg-[#040d1a] text-white overflow-x-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+        html { scroll-behavior: smooth; }
+        .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+        .grad-text {
+          background: linear-gradient(135deg, #00e5a0 0%, #00c896 50%, #00a8d0 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        .card-glow:hover { box-shadow: 0 0 0 1px rgba(0,200,150,0.3), 0 20px 40px rgba(0,200,150,0.08); }
+        .nav-link { position: relative; }
+        .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#00c896; transition: width 0.3s ease; }
+        .nav-link:hover::after { width:100%; }
+        .pill-tag { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:3px 10px; border-radius:20px; background:rgba(0,200,150,0.1); color:#00c896; border:1px solid rgba(0,200,150,0.25); }
+        .dot-grid { background-image: radial-gradient(rgba(0,200,150,0.12) 1px, transparent 1px); background-size: 28px 28px; }
+      `}</style>
 
-      {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center py-32 px-6 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: -60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500"
-        >
-          Innovative Software Products & IT Services
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 1 }}
-          className="mt-6 text-lg md:text-2xl text-gray-200 max-w-3xl"
-        >
-          MMR Tech Solution delivers world-class software products and IT services for businesses of all sizes.<br />
-          Led by <span className="text-teal-400 font-semibold">CEO Mohammad Farooq</span>, we empower businesses to scale with secure, efficient, and innovative technology solutions.<br />
-          Trusted by over 1,200 clients worldwide, helping businesses achieve operational excellence and digital transformation.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 1 }}
-          className="mt-10 shadow-2xl rounded-xl overflow-hidden border-2 border-gray-800 max-w-2xl mx-auto"
-        >
-          <img src="/demo/hero-product-screenshot.png" alt="Digital transformation software solutions" className="w-full object-cover" />
-        </motion.div>
-        <motion.a
-          href="#contact"
-          whileHover={{ scale: 1.07 }}
-          className="mt-10 inline-block px-8 py-4 bg-teal-500 text-white font-bold rounded-lg shadow-lg text-xl transition-transform"
-        >
-          Request Investor Package
-        </motion.a>
-      </section>
+      {/* ── NAVBAR ── */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5" style={{ background: 'rgba(4,13,26,0.85)', backdropFilter: 'blur(16px)' }}>
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <a href="#" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span className="serif font-bold text-xl text-white">Easy<span style={{ color: '#00c896' }}>Pharma</span></span>
+          </a>
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href} className="nav-link text-sm font-medium text-white/60 hover:text-white transition-colors">{l.label}</a>
+            ))}
+          </div>
+          <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-600 text-[#040d1a] transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)', fontWeight: 600 }}>
+            Free Demo
+          </a>
+          <button className="md:hidden text-white/70" onClick={() => setMenuOpen(!menuOpen)}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              {menuOpen ? <path d="M6 18L18 6M6 6l12 12"/> : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>}
+            </svg>
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="md:hidden px-6 pb-4 flex flex-col gap-3 border-t border-white/5">
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="text-sm text-white/70 py-1">{l.label}</a>
+            ))}
+          </div>
+        )}
+      </nav>
 
-      {/* Stats Section */}
-      <section className="grid md:grid-cols-4 gap-10 max-w-5xl mx-auto py-16 px-6 text-center">
-        {stats.map(({ value, label, color, prefix, suffix }, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.15 }}
-            className="bg-gradient-to-br from-gray-800 to-gray-700 p-10 rounded-2xl shadow-xl"
-          >
-            <h3 className={`text-5xl font-extrabold ${color}`}>
-              {prefix || ""}<CountUp end={value} duration={2.5} />{suffix || ""}
-            </h3>
-            <p className="mt-3 text-gray-400 text-xl">{label}</p>
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center dot-grid overflow-hidden pt-16">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #00c896 0%, transparent 70%)' }}/>
+          <div className="absolute bottom-10 right-10 w-[300px] h-[300px] rounded-full opacity-5" style={{ background: 'radial-gradient(circle, #00a8d0 0%, transparent 70%)' }}/>
+        </div>
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            {/* <span className="pill-tag">India's #1 Pharmacy Management Software</span> */}
           </motion.div>
-        ))}
-      </section>
-
-      {/* Services Section */}
-      <section className="max-w-6xl mx-auto py-20 px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-3xl md:text-4xl font-bold text-center text-white"
-        >
-          Our Services
-        </motion.h2>
-        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4 mt-14">
-          {services.map((f, idx) => (
-            <motion.div
-              key={f.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: idx * 0.12 }}
-              className="bg-gray-800 rounded-2xl p-7 text-center shadow-lg"
-            >
-              <div className="text-4xl mb-4">{f.icon}</div>
-              <h3 className="font-bold text-xl text-white">{f.title}</h3>
-              <p className="mt-2 text-gray-400">{f.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <section className="max-w-7xl mx-auto py-16 px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-3xl font-bold text-center text-white"
-        >
-          Our Products
-        </motion.h2>
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((demo, i) => (
-            <motion.a
-              href={demo.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={i}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.06 }}
-              className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 block"
-            >
-              <img src={demo.img} alt={demo.title} className="w-full h-48 object-cover" />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-teal-400">{demo.title}</h3>
-                <p className="text-sm text-gray-400">Click to explore</p>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22,1,0.36,1] }} className="serif mt-6 text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight">
+            Run Your Pharmacy<br /><span className="grad-text">Smarter.</span>
+          </motion.h1>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35, duration: 0.7 }} className="mt-6 text-lg md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed font-light">
+            Complete pharmacy operations — billing, inventory, prescriptions, compliance and analytics — all in one powerful platform built for modern Indian pharmacists.
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="mt-10 flex flex-wrap justify-center gap-4">
+            <a href="#contact" className="px-8 py-4 rounded-xl text-base font-semibold text-[#040d1a] transition-all hover:scale-105 hover:shadow-2xl" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)', boxShadow: '0 0 40px rgba(0,200,150,0.3)' }}>
+              Book a Free Demo →
+            </a>
+            <a href="#features" className="px-8 py-4 rounded-xl text-base font-medium text-white/70 border border-white/10 hover:border-white/30 hover:text-white transition-all">
+              Explore Features
+            </a>
+          </motion.div>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.8 }} className="mt-16 grid grid-cols-3 gap-6 max-w-lg mx-auto">
+            {[["GST", "Compliant"], ["CDSCO", "Ready"], ["24/7", "Cloud Access"]].map(([v, l]) => (
+              <div key={l} className="text-center">
+                <div className="serif text-2xl font-bold" style={{ color: '#00c896' }}>{v}</div>
+                <div className="text-xs text-white/40 mt-1 uppercase tracking-widest">{l}</div>
               </div>
-            </motion.a>
-          ))}
+            ))}
+          </motion.div>
+        </motion.div>
+        <div className="absolute bottom-0 left-0 right-0 h-32" style={{ background: 'linear-gradient(to top, #040d1a, transparent)' }}/>
+      </section>
+
+      {/* ── FEATURES ── */}
+      <section id="features" className="py-28 px-6">
+        <div className="max-w-6xl mx-auto">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
+            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Platform Features</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Everything a Pharmacy Needs,<br /><span className="grad-text">Nothing It Doesn&apos;t</span></motion.h2>
+          </motion.div>
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FEATURES.map((f) => (
+              <motion.div key={f.title} variants={fadeUp} className="card-glow rounded-2xl p-6 border border-white/5 transition-all duration-300" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(0,200,150,0.12)', color: '#00c896' }}>
+                  {f.icon}
+                </div>
+                <h3 className="font-semibold text-base text-white mb-2">{f.title}</h3>
+                <p className="text-sm text-white/45 leading-relaxed font-light">{f.desc}</p>
+                <span className="pill-tag mt-4 inline-block">{f.tag}</span>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="bg-gray-800 py-20 px-6 text-center rounded-t-3xl">
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-3xl font-bold text-white"
-        >
-          Ready To Invest or Partner?
-        </motion.h2>
-        <div className="mt-8 space-y-4 text-lg text-gray-300">
-          <p>
-            📧 Email:
-            <a href="mailto:farooqaziz1993@gmail.com" className="text-teal-400 ml-2">
-              farooqaziz1993@gmail.com
-            </a>
-          </p>
-          <p>
-            📞 Phone:
-            <a href="tel:+919657847644" className="text-teal-400 ml-2">
-              +91 96578 47644
-            </a>
-          </p>
-          <p>🏢 Office: Nagpur, India</p>
+      {/* ── HOW IT WORKS ── */}
+      <section id="how" className="py-24 px-6 border-y border-white/5" style={{ background: 'rgba(0,200,150,0.03)' }}>
+        <div className="max-w-5xl mx-auto">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
+            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Getting Started</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Up &amp; Running <span className="grad-text">in Minutes</span></motion.h2>
+          </motion.div>
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {STEPS.map((s, i) => (
+              <motion.div key={s.n} variants={fadeUp} className="relative">
+                {i < STEPS.length - 1 && (
+                  <div className="hidden lg:block absolute top-7 left-full w-full h-px border-t border-dashed border-white/10 z-0"/>
+                )}
+                <div className="relative z-10">
+                  <div className="serif text-4xl font-bold mb-3" style={{ color: 'rgba(0,200,150,0.25)' }}>{s.n}</div>
+                  <h3 className="font-semibold text-white mb-2">{s.title}</h3>
+                  <p className="text-sm text-white/40 leading-relaxed font-light">{s.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-        <motion.a
-          href="mailto:farooqaziz1993@gmail.com?subject=Investor%20Inquiry%20-%20Products%20&%20Services"
-          whileHover={{ scale: 1.06 }}
-          className="mt-10 inline-block px-10 py-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg text-xl transition-all"
-        >
-          Book a Call or Demo
-        </motion.a>
       </section>
 
-      {/* Footer */}
-      <footer className="py-6 text-center text-gray-500 border-t border-gray-700 mt-6">
-        © {new Date().getFullYear()} MMR Tech Solution. All rights reserved.
+      {/* ── WHY EASYPHARMA ── */}
+      <section id="why" className="py-28 px-6">
+        <div className="max-w-6xl mx-auto">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
+            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Why EasyPharma</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Built for <span className="grad-text">Indian Pharmacies</span></motion.h2>
+          </motion.div>
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {WHY.map((w) => (
+              <motion.div key={w.title} variants={fadeUp} className="card-glow flex gap-4 p-5 rounded-2xl border border-white/5 transition-all duration-300" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                <div className="w-8 h-8 min-w-[32px] rounded-full flex items-center justify-center mt-0.5" style={{ background: 'rgba(0,200,150,0.12)' }}>
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="#00c896" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-sm text-white mb-1">{w.title}</h4>
+                  <p className="text-xs text-white/40 leading-relaxed font-light">{w.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── COMPLIANCE ── */}
+      <section id="compliance" className="py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="rounded-3xl p-10 md:p-14 text-center border border-white/8" style={{ background: 'linear-gradient(135deg, rgba(0,200,150,0.08) 0%, rgba(0,168,208,0.06) 100%)' }}>
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ background: 'rgba(0,200,150,0.15)', border: '1px solid rgba(0,200,150,0.3)' }}>
+              <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="#00c896" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h2 className="serif text-3xl md:text-4xl font-bold mb-4">100% Regulatory Compliant</h2>
+            <p className="text-white/50 text-base max-w-xl mx-auto leading-relaxed font-light mb-8">EasyPharma keeps your pharmacy audit-ready at all times — all government-mandated records are maintained automatically without any extra effort on your part.</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {BADGES.map(b => (
+                <span key={b} className="pill-tag">{b}</span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ── */}
+      <section id="contact" className="py-28 px-6 border-t border-white/5">
+        <div className="max-w-2xl mx-auto text-center">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }}>
+            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Get Started Today</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold mb-4">Start Your <span className="grad-text">Free Trial</span></motion.h2>
+            <motion.p variants={fadeUp} className="text-white/45 text-base mb-10 font-light">No setup fees. No contracts. 30-day free trial. Cancel anytime.</motion.p>
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <a href="mailto:farooqaziz1993@gmail.com?subject=EasyPharma Free Demo Request" className="px-8 py-4 rounded-xl text-base font-semibold text-[#040d1a] transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)', boxShadow: '0 0 30px rgba(0,200,150,0.25)' }}>
+                Book a Free Demo →
+              </a>
+              <a href="tel:+919657847644" className="px-8 py-4 rounded-xl text-base font-medium text-white/70 border border-white/10 hover:border-white/30 hover:text-white transition-all">
+                Call Us Now
+              </a>
+            </motion.div>
+            <motion.div variants={stagger} className="flex flex-col gap-3 items-center">
+              {[
+                { icon: "📞", label: "+91 96578 47644", href: "tel:+919657847644" },
+                { icon: "📧", label: "farooqaziz1993@gmail.com", href: "mailto:farooqaziz1993@gmail.com" },
+                { icon: "📍", label: "Pusad, Maharashtra, India", href: null },
+              ].map(({ icon, label, href }) => (
+                <motion.div key={label} variants={fadeUp}>
+                  {href ? (
+                    <a href={href} className="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors">
+                      <span>{icon}</span><span>{label}</span>
+                    </a>
+                  ) : (
+                    <span className="flex items-center gap-2 text-sm text-white/50"><span>{icon}</span><span>{label}</span></span>
+                  )}
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="border-t border-white/5 py-8 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span className="serif font-bold text-white/80">Easy<span style={{ color: '#00c896' }}>Pharma</span></span>
+          </div>
+          <p className="text-xs text-white/25">© {new Date().getFullYear()} EasyPharma by MMR Tech Solution. All rights reserved.</p>
+          <div className="flex gap-5">
+            {NAV_LINKS.slice(0, 3).map(l => (
+              <a key={l.href} href={l.href} className="text-xs text-white/30 hover:text-white/70 transition-colors">{l.label}</a>
+            ))}
+          </div>
+        </div>
       </footer>
     </main>
   );
