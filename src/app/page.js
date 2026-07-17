@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: "Features", href: "#features" },
   { label: "How It Works", href: "#how" },
   { label: "Why Us", href: "#why" },
+  { label: "Testimonials", href: "#testimonials" },
   { label: "Compliance", href: "#compliance" },
   { label: "Contact", href: "#contact" },
 ];
@@ -15,33 +16,32 @@ const FEATURES = [
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
-        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
       </svg>
     ),
-    title: "Smart POS Billing",
-    desc: "Lightning-fast point-of-sale with barcode scanning, GST-compliant invoices, and all payment modes including UPI, card and cash.",
-    tag: "Pharmacy POS",
+    title: "Offline POS Mode",
+    desc: "Billing never stops. A lightning-fast point-of-sale that runs fully offline on Service Worker and IndexedDB, auto-syncing sales when internet returns.",
+    tag: "Offline Sync",
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8l-1 4h10l-1-4z"/>
+        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
       </svg>
     ),
-    title: "Drug Inventory Control",
-    desc: "Real-time stock tracking with batch numbers, expiry alerts, and low-stock notifications so you never run out of critical medicines.",
+    title: "AI Prescription Scanning",
+    desc: "Digital prescription capture using AI models. Instantly scan handwritten or printed prescription images to extract medicines and match inventory.",
+    tag: "AI Smart Scan",
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    ),
+    title: "FEFO Batch Management",
+    desc: "Batch-wise inventory tracking using FEFO (First Expiry, First Out). Auto-promote batches nearing expiry to minimize medicine wastage.",
     tag: "Drug Inventory",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-      </svg>
-    ),
-    title: "Prescription Management",
-    desc: "Digital prescription capture, complete patient medication history, and automatic refill reminders for chronic patients.",
-    tag: "Rx Management",
   },
   {
     icon: (
@@ -50,7 +50,7 @@ const FEATURES = [
       </svg>
     ),
     title: "GST & Financial Reports",
-    desc: "Auto-generated GSTR-1, GSTR-3B, daily sales summaries, and profit-loss dashboards — all in one place.",
+    desc: "Auto-calculate CGST/SGST per bill. Generate instant daily summaries, profit-loss dashboards, and complete ledger journals.",
     tag: "GST Compliance",
   },
   {
@@ -59,21 +59,46 @@ const FEATURES = [
         <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
       </svg>
     ),
-    title: "Patient & CRM Module",
-    desc: "Complete patient profiles, purchase history, loyalty points, and automated WhatsApp/SMS reminders to boost retention.",
-    tag: "Patient Management",
+    title: "Smart Reorder Suggestions",
+    desc: "Advanced reordering tool analyzing historical daily sales velocities over active days to predict and suggest optimal reorder quantities.",
+    tag: "Pharma Analytics",
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
       </svg>
     ),
-    title: "Analytics Dashboard",
-    desc: "Visual sales trends, top-selling drugs, supplier performance, and margin analysis — all updated in real time.",
-    tag: "Pharma Analytics",
+    title: "Multi-Tenant SaaS isolation",
+    desc: "Strict data privacy boundaries. Connect multiple branches or independent pharmacies with safe routing and separate secure workspaces.",
+    tag: "Multi-Tenancy",
   },
 ];
+
+const TESTIMONIALS = [
+  {
+    quote: "EasyPharma's offline billing saved our store during a 4-hour internet outage. We billed over 120 patients without a single delay, and everything auto-synced the moment the internet returned. Absolute lifesaver!",
+    author: "Dr. Sandeep Deshmukh",
+    role: "Owner, Deshmukh Medicos",
+    location: "Pusad",
+    rating: 5,
+  },
+  {
+    quote: "The AI Prescription Scanning feature is magic. We just scan the handwritten doctor slips and it auto-fills the products and quantities in the invoice. What used to take 2 minutes now takes 15 seconds!",
+    author: "Rahul Sharma",
+    role: "Managing Director, Apex Pharma Chain",
+    location: "Mumbai",
+    rating: 5,
+  },
+  {
+    quote: "Managing expiry dates was our biggest nightmare. With EasyPharma's FEFO batch management, we reduced our medicine wastage to zero. The smart purchase suggest tool also helped optimize our cash flow.",
+    author: "Amit Patel",
+    role: "Founder, Care Pharmacy Group",
+    location: "Pune",
+    rating: 5,
+  }
+];
+
 
 const STEPS = [
   { n: "01", title: "Sign Up Free", desc: "Create your account in under 2 minutes. No credit card required." },
@@ -263,6 +288,47 @@ export default function Home() {
                 <div>
                   <h4 className="font-semibold text-sm text-white mb-1">{w.title}</h4>
                   <p className="text-xs text-white/40 leading-relaxed font-light">{w.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section id="testimonials" className="py-28 px-6 border-t border-white/5" style={{ background: 'rgba(0,168,208,0.02)' }}>
+        <div className="max-w-6xl mx-auto">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
+            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Success Stories</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Trusted by <span className="grad-text">Pharmacists</span></motion.h2>
+          </motion.div>
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t, index) => (
+              <motion.div key={index} variants={fadeUp} className="card-glow rounded-2xl p-8 border border-white/5 transition-all duration-300 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                {/* Decorative quote icon */}
+                <div className="absolute -top-4 -right-2 text-9xl font-serif text-white/5 select-none pointer-events-none">“</div>
+                
+                {/* Rating stars */}
+                <div className="flex gap-1 mb-4 text-emerald-400">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <span key={i} className="text-lg">★</span>
+                  ))}
+                </div>
+                
+                {/* Quote text */}
+                <p className="text-sm text-white/70 leading-relaxed font-light italic mb-6 relative z-10">
+                  "{t.quote}"
+                </p>
+                
+                {/* Author Info */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-[#040d1a]" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
+                    {t.author.split(' ').pop().charAt(0) || 'P'}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm text-white">{t.author}</h4>
+                    <p className="text-xs text-white/45">{t.role} • {t.location}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
