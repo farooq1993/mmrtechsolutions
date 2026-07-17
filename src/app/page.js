@@ -77,24 +77,24 @@ const FEATURES = [
 
 const TESTIMONIALS = [
   {
-    quote: "EasyPharma's offline billing saved our store during a 4-hour internet outage. We billed over 120 patients without a single delay, and everything auto-synced the moment the internet returned. Absolute lifesaver!",
-    author: "Dr. Sandeep Deshmukh",
-    role: "Owner, Deshmukh Medicos",
+    quote: "Easypharma se mujhe har single click pe show hojati hai or important iska User interface bahut easy hai. mai to aisa bolonga jaisa naam hai easy waisa he kaam hai easypharma software ka.",
+    author: "Adil Khan",
+    role: "Owner, Prince Medical Store",
     location: "Pusad",
     rating: 5,
   },
   {
-    quote: "The AI Prescription Scanning feature is magic. We just scan the handwritten doctor slips and it auto-fills the products and quantities in the invoice. What used to take 2 minutes now takes 15 seconds!",
-    author: "Rahul Sharma",
-    role: "Managing Director, Apex Pharma Chain",
-    location: "Mumbai",
+    quote: "EasyPharma use karne se mere purchase entry ka time save hogaya or ab mai apna software kahi se bhi easily access kar sakta hu.",
+    author: "Mushaheed",
+    role: "Owner, Tawakkal Medical & General Store",
+    location: "Pusad",
     rating: 5,
   },
   {
-    quote: "Managing expiry dates was our biggest nightmare. With EasyPharma's FEFO batch management, we reduced our medicine wastage to zero. The smart purchase suggest tool also helped optimize our cash flow.",
-    author: "Amit Patel",
-    role: "Founder, Care Pharmacy Group",
-    location: "Pune",
+    quote: "EasyPharma ek cloud base application hai jo k mere liye bahut badhiya saabit howa. wo mere tier 3 city me. iska prescription scanning ka features se mera time save hota hai.",
+    author: "Aditya",
+    role: "Owner, Adishakti medical",
+    location: "Pusad",
     rating: 5,
   }
 ];
@@ -323,7 +323,7 @@ export default function Home() {
                 {/* Author Info */}
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-[#040d1a]" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
-                    {t.author.split(' ').pop().charAt(0) || 'P'}
+                    {t.author.charAt(0) || 'P'}
                   </div>
                   <div>
                     <h4 className="font-semibold text-sm text-white">{t.author}</h4>
