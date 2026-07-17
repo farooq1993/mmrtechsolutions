@@ -101,10 +101,10 @@ const TESTIMONIALS = [
 
 
 const STEPS = [
-  { n: "01", title: "Sign Up Free", desc: "Create your account in under 2 minutes. No credit card required." },
-  { n: "02", title: "Import Your Data", desc: "Upload existing stock, supplier lists and patient records instantly." },
-  { n: "03", title: "Start Billing", desc: "Issue your first GST-compliant invoice on day one." },
-  { n: "04", title: "Grow Smarter", desc: "Use built-in analytics to optimize inventory and maximize profits." },
+  { n: "01", title: "Request a Demo", desc: "Book a personalized live walkthrough to see how EasyPharma fits your pharmacy store." },
+  { n: "02", title: "Custom Setup", desc: "We deploy your dedicated, secure cloud database and configure branch isolation." },
+  { n: "03", title: "Data Migration", desc: "Our tech team securely imports all your existing stocks, suppliers, and items." },
+  { n: "04", title: "Go Live & Train", desc: "Get your staff trained in 1 day and start issuing GST-compliant invoices immediately." },
 ];
 
 const WHY = [
@@ -250,8 +250,8 @@ export default function Home() {
       <section id="how" className="py-24 px-6 border-y border-white/5" style={{ background: 'rgba(0,200,150,0.03)' }}>
         <div className="max-w-5xl mx-auto">
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
-            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Getting Started</motion.p>
-            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Up &amp; Running <span className="grad-text">in Minutes</span></motion.h2>
+            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Onboarding Journey</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Seamless Onboarding <span className="grad-text">in 4 Steps</span></motion.h2>
           </motion.div>
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {STEPS.map((s, i) => (
