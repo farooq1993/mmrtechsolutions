@@ -77,21 +77,21 @@ const FEATURES = [
 
 const TESTIMONIALS = [
   {
-    quote: "Easypharma se mujhe har single click pe show hojati hai or important iska User interface bahut easy hai. mai to aisa bolonga jaisa naam hai easy waisa he kaam hai easypharma software ka.",
+    quote: "With EasyPharma, everything is visible in just a single click. The user interface is incredibly simple and clean. Truly, just like its name, this software makes pharmacy management absolutely easy!",
     author: "Adil Khan",
     role: "Owner, Prince Medical Store",
     location: "Pusad",
     rating: 5,
   },
   {
-    quote: "EasyPharma use karne se mere purchase entry ka time save hogaya or ab mai apna software kahi se bhi easily access kar sakta hu.",
+    quote: "Using EasyPharma has drastically reduced our purchase entry time. Plus, being cloud-based, I can securely access my store database and manage operations from anywhere, anytime.",
     author: "Mushaheed",
     role: "Owner, Tawakkal Medical & General Store",
     location: "Pusad",
     rating: 5,
   },
   {
-    quote: "EasyPharma ek cloud base application hai jo k mere liye bahut badhiya saabit howa. wo mere tier 3 city me. iska prescription scanning ka features se mera time save hota hai.",
+    quote: "Operating from a tier-3 city, having a cloud-based app like EasyPharma has been a game-changer for us. Its smart prescription scanning feature is exceptionally fast and saves us hours of manual entry.",
     author: "Aditya",
     role: "Owner, Adishakti medical",
     location: "Pusad",
