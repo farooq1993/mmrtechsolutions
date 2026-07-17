@@ -19,9 +19,9 @@ const FEATURES = [
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
       </svg>
     ),
-    title: "Offline POS Mode",
-    desc: "Billing never stops. A lightning-fast point-of-sale that runs fully offline on Service Worker and IndexedDB, auto-syncing sales when internet returns.",
-    tag: "Offline Sync",
+    title: "Zero-Downtime Hybrid POS",
+    desc: "Built to eliminate sales leakage. Our proprietary hybrid-sync engine ensures 100% operational uptime, allowing pharmacies to bill offline and auto-sync to the cloud.",
+    tag: "Business Continuity",
   },
   {
     icon: (
@@ -69,9 +69,9 @@ const FEATURES = [
         <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
       </svg>
     ),
-    title: "Multi-Tenant SaaS isolation",
-    desc: "Strict data privacy boundaries. Connect multiple branches or independent pharmacies with safe routing and separate secure workspaces.",
-    tag: "Multi-Tenancy",
+    title: "Multi-Branch Enterprise Engine",
+    desc: "Designed to scale chains from 1 to 1,000+ stores instantly. Centralized inventory routing, global pricing control, and branch-wise performance analytics.",
+    tag: "Enterprise Scale",
   },
 ];
 
