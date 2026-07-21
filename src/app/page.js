@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
+  { label: "Comparison", href: "#comparison" },
   { label: "How It Works", href: "#how" },
   { label: "Why Us", href: "#why" },
   { label: "Testimonials", href: "#testimonials" },
@@ -66,12 +67,63 @@ const FEATURES = [
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
       </svg>
     ),
-    title: "Multi-Branch Enterprise Engine",
-    desc: "Designed to scale chains from 1 to 1,000+ stores instantly. Centralized inventory routing, global pricing control, and branch-wise performance analytics.",
-    tag: "Enterprise Scale",
+    title: "WhatsApp Bills & Reminders",
+    desc: "Send digital invoices, bill updates and refill reminders directly to your patients' WhatsApp numbers with one click.",
+    tag: "Patient Engagement",
+  },
+];
+
+const COMPARISON_FEATURES = [
+  {
+    feature: "Offline + Cloud Hybrid Billing",
+    easyPharma: "100% Zero-downtime offline billing with auto-sync to cloud",
+    regular: "Desktop-only (data loss risk) or Cloud-only (stops when internet drops)",
+    highlight: true,
+  },
+  {
+    feature: "AI Prescription Scanning",
+    easyPharma: "Instant AI extraction of handwritten & printed prescriptions",
+    regular: "Manual typing of every drug name, dosage & brand",
+    highlight: true,
+  },
+  {
+    feature: "FEFO Expiry Loss Control",
+    easyPharma: "Auto FEFO batch selection + proactive near-expiry alerts",
+    regular: "Manual batch verification; high risk of expired medicine wastage",
+    highlight: false,
+  },
+  {
+    feature: "WhatsApp Digital Invoicing",
+    easyPharma: "Send instant e-invoices & refill reminders on WhatsApp",
+    regular: "Paper receipts only; zero automated customer retention",
+    highlight: true,
+  },
+  {
+    feature: "Smart Purchase Analytics",
+    easyPharma: "AI calculates reorder points based on daily sales velocity",
+    regular: "Manual stock checking & inventory guesswork",
+    highlight: false,
+  },
+  {
+    feature: "Cloud Data Backup & Remote Access",
+    easyPharma: "View real-time sales & reports anytime from Phone or Laptop",
+    regular: "Locked to single shop desktop PC",
+    highlight: false,
+  },
+  {
+    feature: "Automated Regulatory Audit Logs",
+    easyPharma: "Auto-generated Schedule H/H1 & GST sales summary logs",
+    regular: "Manual logbooks and laborious audit preparation",
+    highlight: false,
+  },
+  {
+    feature: "Ease of Use & Staff Onboarding",
+    easyPharma: "Ultra-clean modern UI; staff fully trained in under 1 day",
+    regular: "Complex legacy Windows UI with steep learning curve",
+    highlight: false,
   },
 ];
 
@@ -243,6 +295,104 @@ export default function Home() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── COMPARISON TABLE ── */}
+      <section id="comparison" className="py-28 px-6 border-t border-white/5" style={{ background: 'rgba(4, 19, 36, 0.6)' }}>
+        <div className="max-w-6xl mx-auto">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
+            <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Side-by-Side Comparison</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">
+              EasyPharma <span className="grad-text">vs Traditional Software</span>
+            </motion.h2>
+            <motion.p variants={fadeUp} className="mt-4 text-white/50 text-base max-w-2xl mx-auto font-light">
+              See why forward-thinking pharmacy owners choose EasyPharma over legacy Windows desktop applications.
+            </motion.p>
+          </motion.div>
+
+          {/* Desktop & Tablet Table */}
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="hidden md:block overflow-hidden rounded-2xl border border-white/10" style={{ background: 'rgba(255,255,255,0.02)' }}>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-white/10" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                  <th className="py-5 px-6 text-sm font-semibold text-white/70 w-1/3">Feature / Capability</th>
+                  <th className="py-5 px-6 text-sm font-bold text-white w-1/3" style={{ background: 'rgba(0,200,150,0.12)', borderLeft: '1px solid rgba(0,200,150,0.2)', borderRight: '1px solid rgba(0,200,150,0.2)' }}>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      </div>
+                      <span className="text-base text-[#00c896]">EasyPharma</span>
+                      <span className="pill-tag ml-auto text-[9px] py-0.5 px-2">Recommended</span>
+                    </div>
+                  </th>
+                  <th className="py-5 px-6 text-sm font-semibold text-white/40 w-1/3">Traditional Software</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {COMPARISON_FEATURES.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-4 px-6 text-sm font-medium text-white/90">
+                      {row.feature}
+                      {row.highlight && (
+                        <span className="ml-2.5 inline-block text-[10px] uppercase font-semibold text-[#00c896] bg-[#00c896]/10 px-2 py-0.5 rounded-full border border-[#00c896]/20">Key Advantage</span>
+                      )}
+                    </td>
+                    <td className="py-4 px-6 text-sm text-emerald-300 font-medium bg-[#00c896]/[0.06] border-x border-[#00c896]/20">
+                      <div className="flex items-start gap-2.5">
+                        <svg className="w-5 h-5 text-[#00c896] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>{row.easyPharma}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-6 text-sm text-white/40 font-light">
+                      <div className="flex items-start gap-2.5">
+                        <svg className="w-5 h-5 text-rose-400/60 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                        <span>{row.regular}</span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
+
+          {/* Mobile Cards View */}
+          <div className="md:hidden space-y-4">
+            {COMPARISON_FEATURES.map((row, idx) => (
+              <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: idx * 0.05 }} className="rounded-xl p-5 border border-white/10" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-semibold text-sm text-white">{row.feature}</h4>
+                  {row.highlight && <span className="pill-tag text-[9px] px-2 py-0.5">Key Advantage</span>}
+                </div>
+                <div className="space-y-3 text-xs">
+                  <div className="p-3 rounded-lg border border-[#00c896]/30 bg-[#00c896]/10 text-emerald-300 flex items-start gap-2">
+                    <svg className="w-4 h-4 text-[#00c896] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <div>
+                      <span className="font-semibold text-[#00c896] block mb-0.5">EasyPharma</span>
+                      {row.easyPharma}
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-lg border border-white/5 bg-white/[0.02] text-white/50 flex items-start gap-2">
+                    <svg className="w-4 h-4 text-rose-400/60 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    <div>
+                      <span className="font-semibold text-white/40 block mb-0.5">Traditional Software</span>
+                      {row.regular}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
