@@ -120,6 +120,12 @@ const COMPARISON_FEATURES = [
     highlight: false,
   },
   {
+    feature: "Pricing & Total Cost of Ownership",
+    easyPharma: "Affordable ₹6,500 setup + ₹2,000/yr AMC (60-70% lower TCO)",
+    regular: "₹12,000 - ₹25,000 upfront + ₹5,000+/yr AMC & hidden module fees",
+    highlight: true,
+  },
+  {
     feature: "Ease of Use & Staff Onboarding",
     easyPharma: "Ultra-clean modern UI; staff fully trained in under 1 day",
     regular: "Complex legacy Windows UI with steep learning curve",

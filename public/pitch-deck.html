@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyPharma - Investor Pitch Deck</title>
+  <style>
+    :root {
+      --bg: #040D1A;
+      --card-bg: #0A182A;
+      --accent: #00C896;
+      --text: #FFFFFF;
+      --muted: #A0AFB5;
+      --border: rgba(0, 200, 150, 0.25);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .slide {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      page-break-after: always;
+    }
+    .slide-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    h1 { font-size: 42px; color: var(--accent); margin-bottom: 16px; font-weight: 800; }
+    h2 { font-size: 28px; color: var(--text); margin-bottom: 24px; font-weight: 700; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    p { color: var(--muted); font-size: 16px; margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .card h3 { color: var(--accent); font-size: 18px; margin-bottom: 8px; }
+    .card p { font-size: 14px; margin-bottom: 0; }
+    .stat-num { font-size: 36px; font-weight: 800; color: var(--accent); }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: left; }
+    th, td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; }
+    th { color: var(--accent); background: rgba(0,200,150,0.1); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    .btn-print {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: #040D1A;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,200,150,0.4);
+      z-index: 1000;
+    }
+    @media print {
+      .btn-print { display: none; }
+      body { padding: 0; background: #fff; color: #000; }
+      .slide { background: #fff; color: #000; border: 1px solid #ccc; box-shadow: none; margin-bottom: 0; }
+      h1, h2, .card h3, .stat-num, th { color: #008060; }
+      p, td { color: #333; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="btn-print" onclick="window.print()">🖨️ Save as PDF / Print</button>
+
+  <div class="container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide">
+      <div class="slide-tag">EasyPharma Pitch Deck</div>
+      <h1>EasyPharma</h1>
+      <p style="font-size: 22px; color: #fff; font-weight: 600;">Next-Gen Hybrid Cloud POS & Smart Inventory System for Indian Retail Pharmacies</p>
+      <p style="margin-top: 20px;">Digitizing 12 Lakh+ Chemist Retailers | 100% Offline Billing | AI Prescription Scanning | WhatsApp Invoicing</p>
+      <p style="margin-top: 40px; font-size: 14px;">Presented by: Founder & Technical Architect, EasyPharma (MMR Tech Solutions)</p>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div class="slide-tag">Problem Statement</div>
+      <h2>The Problem Facing 12 Lakh+ Indian Retail Pharmacies</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>❌ High Expiry Stock Losses</h3>
+          <p>Chemists lose 5-10% of annual inventory value due to unmonitored drug expiry and lack of FEFO batch tracking.</p>
+        </div>
+        <div class="card">
+          <h3>❌ Internet Outage Downtime</h3>
+          <p>Cloud-only POS systems crash during network drops in Tier 2/3 cities, causing direct sales loss.</p>
+        </div>
+        <div class="card">
+          <h3>❌ Slow Prescription Typing</h3>
+          <p>Staff wastes hours manually typing handwritten doctor prescription names and dosages.</p>
+        </div>
+        <div class="card">
+          <h3>❌ Legacy Software Cost</h3>
+          <p>Traditional desktop software charge heavy upfront costs (₹15k-₹25k) + expensive hidden module fees.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div class="slide-tag">Solution</div>
+      <h2>The Solution — EasyPharma Platform</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>⚡ Offline-Cloud Hybrid Sync</h3>
+          <p>100% zero-downtime offline billing. Auto-syncs data to cloud when internet is available.</p>
+        </div>
+        <div class="card">
+          <h3>📸 AI Prescription Scanner</h3>
+          <p>Instantly extracts handwritten/printed doctor prescriptions and matches stock in seconds.</p>
+        </div>
+        <div class="card">
+          <h3>⏳ FEFO Expiry Loss Control</h3>
+          <p>Proactive alerts for near-expiry batches, reducing dead stock wastage by up to 80%.</p>
+        </div>
+        <div class="card">
+          <h3>📲 WhatsApp Invoicing</h3>
+          <p>Sends instant e-bills and automated refill reminders directly to patients on WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+      <div class="slide-tag">Market Opportunity</div>
+      <h2>Market Research & Growth Horizon (2024 - 2030)</h2>
+      <div class="grid">
+        <div class="card" style="text-align: center;">
+          <div class="stat-num">$65B+</div>
+          <p>Indian Pharmacy Retail Market by 2030 (IBEF / EY Data)</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div class="stat-num">85%+</div>
+          <p>Controlled by Independent Chemist Retailers in Tier 2/3 Towns</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div class="stat-num">12 Lakh+</div>
+          <p>Retail Chemist Stores Needing Cloud & AI Digitalization</p>
+        </div>
+      </div>
+      <p style="margin-top: 25px;"><strong>Industry Sources:</strong> IBEF Indian Pharmaceutical Analysis 2024, EY India Healthcare Transformation Study, PwC Retail Healthcare Report.</p>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+      <div class="slide-tag">Price Advantage</div>
+      <h2>Pricing Advantage — EasyPharma vs Competitors</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>EasyPharma 🚀</th>
+            <th>Traditional Competitors (Marg / Busy) 🐢</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Upfront Setup & License</strong></td>
+            <td class="highlight">₹6,500 (Setup & Data Migration included)</td>
+            <td>₹12,000 – ₹25,000 (High entry fee)</td>
+          </tr>
+          <tr>
+            <td><strong>Annual Maintenance (AMC)</strong></td>
+            <td class="highlight">₹2,000 / year (All-inclusive)</td>
+            <td>₹4,500 – ₹8,000 / year</td>
+          </tr>
+          <tr>
+            <td><strong>WhatsApp Billing Module</strong></td>
+            <td class="highlight">Included FREE</td>
+            <td>₹2,000 – ₹4,000 / year Add-on fee</td>
+          </tr>
+          <tr>
+            <td><strong>AI Prescription Scanner</strong></td>
+            <td class="highlight">Included</td>
+            <td>Not Available</td>
+          </tr>
+          <tr>
+            <td><strong>Total 3-Year Ownership Cost</strong></td>
+            <td class="highlight">~₹10,500 (60-70% Savings!)</td>
+            <td>~₹25,000 – ₹40,000+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+      <div class="slide-tag">Financial Plan</div>
+      <h2>1-Year Target & Revenue Projections (500 Stores)</h2>
+      <div class="grid">
+        <div class="card" style="text-align: center;">
+          <div class="stat-num">₹32.5 Lakhs</div>
+          <p>500 Stores × ₹6,500 Initial Setup Revenue</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div class="stat-num">₹10.0 Lakhs</div>
+          <p>500 Stores × ₹2,000 Annual Recurring Revenue (ARR)</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div class="stat-num">₹42.5 Lakhs</div>
+          <p>Total Year 1-2 Revenue Base</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide">
+      <div class="slide-tag">Capital Plan</div>
+      <h2>Fund Requirement & Capital Allocation (100% Use)</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>📢 40% — Product Marketing & Sales</h3>
+          <p>Ground Sales Executives, local chemist association events, stockist channel partner incentives.</p>
+        </div>
+        <div class="card">
+          <h3>💻 30% — R&D & Tech Scaling</h3>
+          <p>AI Prescription scanner OCR enhancement, server scalability, multi-branch engine & mobile app.</p>
+        </div>
+        <div class="card">
+          <h3>⚙️ 30% — Support & Operations</h3>
+          <p>Data migration team (legacy software import) and 24/7 dedicated support desk.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+      <div class="slide-tag">Contact Information</div>
+      <h2>Contact & Investor Relations</h2>
+      <p><strong>Email:</strong> farooqaziz1993@gmail.com</p>
+      <p><strong>Phone:</strong> +91 96578 47644</p>
+      <p><strong>Location:</strong> Pusad, Maharashtra, India</p>
+      <p><strong>Website / Codebase:</strong> github.com/farooq1993/mmrtechsolutions.git</p>
+    </div>
+
+  </div>
+</body>
+</html>
