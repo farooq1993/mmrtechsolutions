@@ -422,15 +422,15 @@ export default function Home() {
             className="mt-16 max-w-4xl mx-auto px-4"
           >
             {/* Slider Tabs */}
-            <div className="flex flex-wrap justify-center gap-1.5 mb-6 border-b border-slate-100 pb-4">
+            <div className="flex flex-wrap justify-center gap-2 mb-6 border-b border-slate-100 pb-4">
               {HERO_SLIDES.map((slide, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentHeroSlide(idx)}
-                  className={`px-3.5 py-2 rounded-xl text-[11px] font-bold transition-all duration-300 ${
+                  className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 ${
                     currentHeroSlide === idx
-                      ? "bg-purple-50 text-[#7c3aed] border border-purple-100/60 shadow-sm"
-                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                      ? "bg-purple-600 text-white border border-purple-600 shadow-md shadow-purple-500/10"
+                      : "text-slate-700 hover:text-purple-600 bg-slate-50 border border-slate-200/80 hover:bg-slate-100"
                   }`}
                 >
                   <span>{slide.title}</span>
@@ -439,24 +439,24 @@ export default function Home() {
             </div>
 
             {/* Slider Browser Mockup */}
-            <div className="relative rounded-2xl border border-slate-200/80 overflow-hidden shadow-2xl bg-slate-50 p-2.5 transition-all duration-500">
-              {/* Browser Dots */}
-              <div className="flex items-center justify-between mb-2.5 px-2">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
-                  <div className="text-[10px] text-slate-400 ml-4 font-mono select-none hidden sm:inline">
-                    https://app.easypharma.in/{HERO_SLIDES[currentHeroSlide].title.toLowerCase().replace(/ /g, '-')}
-                  </div>
+            <div className="relative rounded-2xl border border-slate-800 overflow-hidden shadow-2xl bg-slate-950 p-3 transition-all duration-500">
+              {/* Browser Header Bar */}
+              <div className="flex items-center justify-between mb-3 px-2">
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="w-3 h-3 rounded-full bg-rose-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
                 </div>
-                <div className="text-[9px] uppercase font-bold tracking-widest text-[#10b981] bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-100">
+                <div className="bg-slate-900 text-slate-400 text-[11px] px-6 py-1 rounded-lg border border-slate-800 font-mono select-none w-1/2 text-center overflow-hidden whitespace-nowrap text-ellipsis hidden sm:block">
+                  https://app.easypharma.in/{HERO_SLIDES[currentHeroSlide].title.toLowerCase().replace(/ /g, '-')}
+                </div>
+                <div className="text-[10px] uppercase font-bold tracking-widest text-[#10b981] bg-emerald-950/30 px-2.5 py-0.5 rounded border border-emerald-900/30 shrink-0">
                   {HERO_SLIDES[currentHeroSlide].tag}
                 </div>
               </div>
 
               {/* Slider Image Showcase */}
-              <div className="relative overflow-hidden rounded-lg bg-white border border-slate-100 shadow-inner">
+              <div className="relative overflow-hidden rounded-lg bg-white border border-slate-850 shadow-inner">
                 <img
                   src={HERO_SLIDES[currentHeroSlide].image}
                   alt={HERO_SLIDES[currentHeroSlide].title}
