@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: "Why Us", href: "#why" },
   { label: "Testimonials", href: "#testimonials" },
   { label: "Compliance", href: "#compliance" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -233,6 +234,29 @@ const WHY = [
 
 const BADGES = ["CDSCO Ready", "GST Compliant", "Schedule H / H1", "Narcotic Drug Logs"];
 
+const FAQS = [
+  {
+    q: "What is EasyPharma and how does it differ from traditional desktop software?",
+    a: "EasyPharma is a modern cloud-based hybrid POS and inventory management system designed for pharmacies. Unlike legacy desktop software, it gives you real-time access to your store data from any device, automated daily encrypted backups, and seamless offline billing without risking data loss."
+  },
+  {
+    q: "How does the CSV Purchase Entry feature save time?",
+    a: "Instead of manually typing every medicine name, packing size, rate, batch number, and expiry date from distributor bills, you can simply upload their CSV invoice. EasyPharma automatically reconciles and populates the details, reducing data entry time from 15-20 minutes down to just 30 seconds."
+  },
+  {
+    q: "What happens if my internet connection goes down?",
+    a: "Your operations will continue without interruption. EasyPharma features an offline hybrid billing engine, allowing you to generate GST-compliant invoices offline. As soon as your internet connection is restored, all data automatically syncs with the secure cloud."
+  },
+  {
+    q: "Is EasyPharma compliant with drug regulations in India?",
+    a: "Yes. EasyPharma is 100% CDSCO ready and GST compliant. It maintains automated registers for Schedule H & H1 drugs, records narcotic logs, handles batch-wise FEFO (First Expiry, First Out) inventory management, and calculates CGST/SGST per transaction automatically."
+  },
+  {
+    q: "How fast can we migrate our data and start billing?",
+    a: "The complete migration process takes less than 24 hours. Our technical onboarding team handles the secure transfer of your existing items, stocks, and supplier lists. Because the interface is modern and intuitive, your staff can be fully trained to start billing in under 1 day."
+  }
+];
+
 const stagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
@@ -245,6 +269,10 @@ const fadeUp = {
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [openFaq, setOpenFaq] = useState(null);
+  const toggleFaq = (idx) => {
+    setOpenFaq(openFaq === idx ? null : idx);
+  };
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
@@ -335,7 +363,6 @@ export default function Home() {
         </div>
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex flex-wrap justify-center gap-2 mb-4">
-            <span className="pill-tag">India's #1 Pharmacy Management Software</span>
             <span className="pill-tag" style={{ background: 'rgba(16, 185, 129, 0.08)', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.15)' }}>🚀 Launched June 2026</span>
             <span className="pill-tag" style={{ background: 'rgba(124, 58, 237, 0.08)', color: '#7c3aed', borderColor: 'rgba(124, 58, 237, 0.15)' }}>📈 6+ Pharmacies Onboarded in Month 1</span>
           </motion.div>
@@ -694,6 +721,43 @@ export default function Home() {
               ))}
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── FAQ SECTION ── */}
+      <section id="faq" className="py-28 px-6 border-t border-slate-100 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="pill-tag inline-block mb-4">Frequently Asked Questions</span>
+            <h2 className="serif text-4xl md:text-5xl font-bold text-slate-900">Have Questions? <span className="grad-text">We Have Answers</span></h2>
+            <p className="mt-4 text-slate-600 text-base max-w-xl mx-auto font-light">
+              Find answers to common questions about migrating to EasyPharma, billing security, and compliance.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {FAQS.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div key={idx} className="border border-slate-200/60 rounded-2xl overflow-hidden transition-all duration-300 bg-white shadow-sm hover:border-purple-200">
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full text-left py-5 px-6 flex items-center justify-between gap-4 font-semibold text-slate-800 hover:text-slate-900 transition-colors"
+                  >
+                    <span>{faq.q}</span>
+                    <span className="text-xl text-[#7c3aed] transition-transform duration-300" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                      ▼
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-6 pb-5 text-sm text-slate-600 leading-relaxed font-light border-t border-slate-100 pt-4 bg-slate-50/40 font-light">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
