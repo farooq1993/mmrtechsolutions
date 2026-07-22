@@ -1,7 +1,7 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import CountUp from "react-countup";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
@@ -263,10 +263,46 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
+const HERO_SLIDES = [
+  {
+    title: "Command Dashboard",
+    image: "/dashboard.png",
+    tag: "Real-time Operations",
+    badge: "1-Click Control"
+  },
+  {
+    title: "CSV Purchase Entry",
+    image: "/purchase_entry.png",
+    tag: "95% Faster Ingestion",
+    badge: "30s Auto-Import"
+  },
+  {
+    title: "Smart Suggestions",
+    image: "/purchase_suggestions.png",
+    tag: "Zero Stockouts",
+    badge: "Sales Velocity Math"
+  },
+  {
+    title: "Purchase Analysis",
+    image: "/purchase_analysis.png",
+    tag: "GST & Cashflow Logs",
+    badge: "Cost Optimization"
+  }
+];
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [openFaq, setOpenFaq] = useState(null);
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
   const toggleFaq = (idx) => {
     setOpenFaq(openFaq === idx ? null : idx);
   };
@@ -376,6 +412,58 @@ export default function Home() {
             <a href="#features" className="px-8 py-4 rounded-xl text-base font-medium text-slate-600 border border-slate-200 hover:border-slate-400 hover:text-slate-950 transition-all bg-white">
               Explore Features
             </a>
+          </motion.div>
+
+          {/* ── HERO SCREENSHOT SLIDER ── */}
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ delay: 0.6, duration: 0.8 }} 
+            className="mt-16 max-w-4xl mx-auto px-4"
+          >
+            {/* Slider Tabs */}
+            <div className="flex flex-wrap justify-center gap-1.5 mb-6 border-b border-slate-100 pb-4">
+              {HERO_SLIDES.map((slide, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentHeroSlide(idx)}
+                  className={`px-3.5 py-2 rounded-xl text-[11px] font-bold transition-all duration-300 ${
+                    currentHeroSlide === idx
+                      ? "bg-purple-50 text-[#7c3aed] border border-purple-100/60 shadow-sm"
+                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                  }`}
+                >
+                  <span>{slide.title}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Slider Browser Mockup */}
+            <div className="relative rounded-2xl border border-slate-200/80 overflow-hidden shadow-2xl bg-slate-50 p-2.5 transition-all duration-500">
+              {/* Browser Dots */}
+              <div className="flex items-center justify-between mb-2.5 px-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+                  <div className="text-[10px] text-slate-400 ml-4 font-mono select-none hidden sm:inline">
+                    https://app.easypharma.in/{HERO_SLIDES[currentHeroSlide].title.toLowerCase().replace(/ /g, '-')}
+                  </div>
+                </div>
+                <div className="text-[9px] uppercase font-bold tracking-widest text-[#10b981] bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-100">
+                  {HERO_SLIDES[currentHeroSlide].tag}
+                </div>
+              </div>
+
+              {/* Slider Image Showcase */}
+              <div className="relative overflow-hidden rounded-lg bg-white border border-slate-100 shadow-inner">
+                <img
+                  src={HERO_SLIDES[currentHeroSlide].image}
+                  alt={HERO_SLIDES[currentHeroSlide].title}
+                  className="w-full h-auto object-contain transition-all duration-500 max-h-[480px]"
+                />
+              </div>
+            </div>
           </motion.div>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.8 }} className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
             {[
