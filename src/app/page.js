@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
+  { label: "Product Tour", href: "#tour" },
   { label: "Comparison", href: "#comparison" },
   { label: "How It Works", href: "#how" },
   { label: "Why Us", href: "#why" },
@@ -23,16 +24,6 @@ const FEATURES = [
     title: "Zero-Downtime Hybrid POS",
     desc: "Built to eliminate sales leakage. Our proprietary hybrid-sync engine ensures 100% operational uptime, allowing pharmacies to bill offline and auto-sync to the cloud.",
     tag: "Business Continuity",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
-      </svg>
-    ),
-    title: "AI Prescription Scanning",
-    desc: "Digital prescription capture using AI models. Instantly scan handwritten or printed prescription images to extract medicines and match inventory.",
-    tag: "AI Smart Scan",
   },
   {
     icon: (
@@ -76,6 +67,73 @@ const FEATURES = [
   },
 ];
 
+const TOUR_TABS = [
+  {
+    id: "dashboard",
+    title: "Interactive Dashboard",
+    subtitle: "Real-time Store Command Center",
+    image: "/dashboard.png",
+    metric: "1-Click",
+    metricLabel: "Total Business Control",
+    desc: "The primary control center of your pharmacy. Get a visual overview of daily sales, total completed transactions, low-stock valuation, active expiry alerts, and top prescribing doctors instantly.",
+    usefulness: "Provides pharmacy owners with complete operational visibility, helping make quick, data-driven decisions to optimize inventory and sales.",
+    points: [
+      "Real-time revenue tracking and sales metrics.",
+      "Instant visibility of total transaction counts.",
+      "Proactive alerts for batches expiring in the next 30-50 days.",
+      "Visual charts of top-selling products and top prescribing doctors."
+    ]
+  },
+  {
+    id: "purchase-import",
+    title: "CSV Purchase Entry",
+    subtitle: "Automatic Invoice Ingestion",
+    image: "/purchase_entry.png",
+    metric: "95%",
+    metricLabel: "Time Saved on Data Entry",
+    desc: "Eliminate manual invoice typing. Simply upload the CSV file received from your distributor, and the system will automatically extract and populate the entire purchase entry form.",
+    usefulness: "Reduces purchase entry time from 15-20 minutes down to just 30 seconds, eliminating manual data entry mistakes and saving pharmacists hours of clerical work daily.",
+    points: [
+      "Process complex 30+ item purchase bills in under 30 seconds.",
+      "Smart reconciliation system matches names with database products.",
+      "Automatically populates batch numbers, expiries, rates, and GST.",
+      "Instantly updates supplier ledger records and outstanding dues."
+    ]
+  },
+  {
+    id: "suggestions",
+    title: "Smart Purchase Suggestions",
+    subtitle: "Data-Driven Inventory Ordering",
+    image: "/purchase_suggestions.png",
+    metric: "0%",
+    metricLabel: "Stockout / Shortage Rate",
+    desc: "An intelligent ordering helper that calculates drug sales velocity to recommend exactly what to reorder and from which supplier.",
+    usefulness: "Ensures your store never runs out of essential medicines (zero stockouts) while preventing cash from being locked up in excess stock (zero dead stock).",
+    points: [
+      "Automatically highlights critical, low, and out-of-stock items.",
+      "Predicts 'Days Left' for every medicine based on historical sales.",
+      "Recommends the best supplier and pricing for reordering.",
+      "Adds suggested quantities to your active purchase bill in one click."
+    ]
+  },
+  {
+    id: "analysis",
+    title: "Purchase Analysis",
+    subtitle: "Intelligent Purchase Analytics",
+    image: "/purchase_analysis.png",
+    metric: "100%",
+    metricLabel: "GST & Cashflow Tracking",
+    desc: "A comprehensive dashboard detailing total purchases, average invoice values, and GST tax rate distributions over time.",
+    usefulness: "Gives clear cost visibility to help negotiate better discount terms with distributors, track payment modes, and simplify GST tax filing.",
+    points: [
+      "6-month historical purchase value trend charts.",
+      "Detailed payment mode split (Cash vs. Credit) to manage cashflow.",
+      "Insights into top suppliers by total spend.",
+      "GST rate breakdown for easy auditing and compliance filing."
+    ]
+  }
+];
+
 const COMPARISON_FEATURES = [
   {
     feature: "Offline + Cloud Hybrid Billing",
@@ -84,9 +142,9 @@ const COMPARISON_FEATURES = [
     highlight: true,
   },
   {
-    feature: "AI Prescription Scanning",
-    easyPharma: "Instant AI extraction of handwritten & printed prescriptions",
-    regular: "Manual typing of every drug name, dosage & brand",
+    feature: "CSV Purchase Import",
+    easyPharma: "Instant CSV billing import and receipt parsing under 30 seconds",
+    regular: "Manual typing of every single drug name, batch, rate, and expiry",
     highlight: true,
   },
   {
@@ -102,7 +160,7 @@ const COMPARISON_FEATURES = [
     highlight: true,
   },
   {
-    feature: "Smart Purchase Analytics",
+    feature: "Smart Purchase Suggestions",
     easyPharma: "AI calculates reorder points based on daily sales velocity",
     regular: "Manual stock checking & inventory guesswork",
     highlight: false,
@@ -149,14 +207,13 @@ const TESTIMONIALS = [
     rating: 5,
   },
   {
-    quote: "Operating from a tier-3 city, having a cloud-based app like EasyPharma has been a game-changer for us. Its smart prescription scanning feature is exceptionally fast and saves us hours of manual entry.",
+    quote: "Operating from a tier-3 city, having a cloud-based app like EasyPharma has been a game-changer for us. Its smart CSV import feature is exceptionally fast and saves us hours of manual entry.",
     author: "Aditya",
     role: "Owner, Adishakti medical",
     location: "Pusad",
     rating: 5,
   }
 ];
-
 
 const STEPS = [
   { n: "01", title: "Request a Demo", desc: "Book a personalized live walkthrough to see how EasyPharma fits your pharmacy store." },
@@ -187,176 +244,297 @@ const fadeUp = {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("dashboard");
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <main className="min-h-screen bg-[#040d1a] text-white overflow-x-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+    <main className="min-h-screen bg-white text-slate-800 overflow-x-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
         html { scroll-behavior: smooth; }
         .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
         .grad-text {
-          background: linear-gradient(135deg, #00e5a0 0%, #00c896 50%, #00a8d0 100%);
+          background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 50%, #059669 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
-        .card-glow:hover { box-shadow: 0 0 0 1px rgba(0,200,150,0.3), 0 20px 40px rgba(0,200,150,0.08); }
+        .card-glow {
+          border: 1px solid rgba(124, 58, 237, 0.08);
+          background: #ffffff;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-glow:hover {
+          border-color: rgba(124, 58, 237, 0.3);
+          box-shadow: 0 20px 25px -5px rgba(124, 58, 237, 0.1), 0 10px 10px -5px rgba(124, 58, 237, 0.04);
+          transform: translateY(-2px);
+        }
         .nav-link { position: relative; }
-        .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#00c896; transition: width 0.3s ease; }
+        .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#7c3aed; transition: width 0.3s ease; }
         .nav-link:hover::after { width:100%; }
-        .pill-tag { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:3px 10px; border-radius:20px; background:rgba(0,200,150,0.1); color:#00c896; border:1px solid rgba(0,200,150,0.25); }
-        .dot-grid { background-image: radial-gradient(rgba(0,200,150,0.12) 1px, transparent 1px); background-size: 28px 28px; }
+        .pill-tag {
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          padding: 4px 12px;
+          border-radius: 20px;
+          background: rgba(124, 58, 237, 0.06);
+          color: #7c3aed;
+          border: 1px solid rgba(124, 58, 237, 0.15);
+        }
+        .dot-grid {
+          background-image: radial-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+          background-size: 28px 28px;
+        }
       `}</style>
 
       {/* ── NAVBAR ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5" style={{ background: 'rgba(4,13,26,0.85)', backdropFilter: 'blur(16px)' }}>
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-100" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(16px)' }}>
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
               </svg>
             </div>
-            <span className="serif font-bold text-xl text-white">Easy<span style={{ color: '#00c896' }}>Pharma</span></span>
+            <span className="serif font-bold text-xl text-slate-900">Easy<span style={{ color: '#7c3aed' }}>Pharma</span></span>
           </a>
           <div className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map(l => (
-              <a key={l.href} href={l.href} className="nav-link text-sm font-medium text-white/60 hover:text-white transition-colors">{l.label}</a>
+              <a key={l.href} href={l.href} className="nav-link text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">{l.label}</a>
             ))}
           </div>
-          <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-600 text-[#040d1a] transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)', fontWeight: 600 }}>
+          <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
             Free Demo
           </a>
-          <button className="md:hidden text-white/70" onClick={() => setMenuOpen(!menuOpen)}>
+          <button className="md:hidden text-slate-700" onClick={() => setMenuOpen(!menuOpen)}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               {menuOpen ? <path d="M6 18L18 6M6 6l12 12"/> : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>}
             </svg>
           </button>
         </div>
         {menuOpen && (
-          <div className="md:hidden px-6 pb-4 flex flex-col gap-3 border-t border-white/5">
+          <div className="md:hidden px-6 pb-4 flex flex-col gap-3 border-t border-slate-100 bg-white shadow-lg">
             {NAV_LINKS.map(l => (
-              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="text-sm text-white/70 py-1">{l.label}</a>
+              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="text-sm text-slate-600 py-1">{l.label}</a>
             ))}
           </div>
         )}
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center dot-grid overflow-hidden pt-16">
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center dot-grid overflow-hidden pt-16 bg-gradient-to-b from-purple-50/20 via-white to-white">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #00c896 0%, transparent 70%)' }}/>
-          <div className="absolute bottom-10 right-10 w-[300px] h-[300px] rounded-full opacity-5" style={{ background: 'radial-gradient(circle, #00a8d0 0%, transparent 70%)' }}/>
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #7c3aed 0%, transparent 70%)' }}/>
+          <div className="absolute bottom-10 right-10 w-[300px] h-[300px] rounded-full opacity-[0.03]" style={{ background: 'radial-gradient(circle, #10b981 0%, transparent 70%)' }}/>
         </div>
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            {/* <span className="pill-tag">India's #1 Pharmacy Management Software</span> */}
+            <span className="pill-tag">India's #1 Pharmacy Management Software</span>
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22,1,0.36,1] }} className="serif mt-6 text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight">
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22,1,0.36,1] }} className="serif mt-6 text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight text-slate-900">
             Run Your Pharmacy<br /><span className="grad-text">Smarter.</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35, duration: 0.7 }} className="mt-6 text-lg md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed font-light">
-            Complete pharmacy operations — billing, inventory, prescriptions, compliance and analytics — all in one powerful platform built for modern Indian pharmacists.
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35, duration: 0.7 }} className="mt-6 text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-light">
+            Complete pharmacy operations — billing, inventory, purchases, compliance and analytics — all in one powerful platform built for modern Indian pharmacists.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="mt-10 flex flex-wrap justify-center gap-4">
-            <a href="#contact" className="px-8 py-4 rounded-xl text-base font-semibold text-[#040d1a] transition-all hover:scale-105 hover:shadow-2xl" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)', boxShadow: '0 0 40px rgba(0,200,150,0.3)' }}>
+            <a href="#contact" className="px-8 py-4 rounded-xl text-base font-semibold text-white transition-all hover:scale-105 hover:shadow-2xl" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)', boxShadow: '0 10px 30px rgba(124,58,237,0.2)' }}>
               Book a Free Demo →
             </a>
-            <a href="#features" className="px-8 py-4 rounded-xl text-base font-medium text-white/70 border border-white/10 hover:border-white/30 hover:text-white transition-all">
+            <a href="#features" className="px-8 py-4 rounded-xl text-base font-medium text-slate-600 border border-slate-200 hover:border-slate-400 hover:text-slate-950 transition-all bg-white">
               Explore Features
             </a>
           </motion.div>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.8 }} className="mt-16 grid grid-cols-3 gap-6 max-w-lg mx-auto">
             {[["GST", "Compliant"], ["CDSCO", "Ready"], ["24/7", "Cloud Access"]].map(([v, l]) => (
               <div key={l} className="text-center">
-                <div className="serif text-2xl font-bold" style={{ color: '#00c896' }}>{v}</div>
-                <div className="text-xs text-white/40 mt-1 uppercase tracking-widest">{l}</div>
+                <div className="serif text-2xl font-bold" style={{ color: '#7c3aed' }}>{v}</div>
+                <div className="text-xs text-slate-400 mt-1 uppercase tracking-widest">{l}</div>
               </div>
             ))}
           </motion.div>
         </motion.div>
-        <div className="absolute bottom-0 left-0 right-0 h-32" style={{ background: 'linear-gradient(to top, #040d1a, transparent)' }}/>
+        <div className="absolute bottom-0 left-0 right-0 h-32" style={{ background: 'linear-gradient(to top, #ffffff, transparent)' }}/>
       </section>
 
       {/* ── FEATURES ── */}
-      <section id="features" className="py-28 px-6">
+      <section id="features" className="py-28 px-6 bg-slate-50/50">
         <div className="max-w-6xl mx-auto">
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
             <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Platform Features</motion.p>
-            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Everything a Pharmacy Needs,<br /><span className="grad-text">Nothing It Doesn&apos;t</span></motion.h2>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold text-slate-900">Everything a Pharmacy Needs,<br /><span className="grad-text">Nothing It Doesn&apos;t</span></motion.h2>
           </motion.div>
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {FEATURES.map((f) => (
-              <motion.div key={f.title} variants={fadeUp} className="card-glow rounded-2xl p-6 border border-white/5 transition-all duration-300" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(0,200,150,0.12)', color: '#00c896' }}>
+              <motion.div key={f.title} variants={fadeUp} className="card-glow rounded-2xl p-6 border border-slate-100 transition-all duration-300 bg-white">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(124,58,237,0.06)', color: '#7c3aed' }}>
                   {f.icon}
                 </div>
-                <h3 className="font-semibold text-base text-white mb-2">{f.title}</h3>
-                <p className="text-sm text-white/45 leading-relaxed font-light">{f.desc}</p>
-                <span className="pill-tag mt-4 inline-block">{f.tag}</span>
+                <h3 className="font-semibold text-base text-slate-900 mb-2">{f.title}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed font-light mb-4">{f.desc}</p>
+                <span className="pill-tag inline-block">{f.tag}</span>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
+      {/* ── INTERACTIVE PRODUCT TOUR ── */}
+      <section id="tour" className="py-24 px-6 border-t border-slate-100 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="pill-tag inline-block mb-4">Interactive Product Tour</span>
+            <h2 className="serif text-4xl md:text-5xl font-bold text-slate-900">Experience EasyPharma <span className="grad-text">in Action</span></h2>
+            <p className="mt-4 text-slate-600 text-base max-w-2xl mx-auto font-light">
+              Explore real screenshots of our dashboard and modules to see exactly how EasyPharma simplifies your daily workflow.
+            </p>
+          </div>
+
+          {/* Tabs header */}
+          <div className="flex flex-wrap justify-center gap-2 mb-12 border-b border-slate-100 pb-6">
+            {TOUR_TABS.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                  activeTab === tab.id
+                    ? "text-white scale-105 shadow-md shadow-purple-500/10"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+                style={
+                  activeTab === tab.id
+                    ? { background: 'linear-gradient(135deg, #7c3aed, #10b981)' }
+                    : {}
+                }
+              >
+                {tab.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Active Tab Content */}
+          {TOUR_TABS.map((tab) => {
+            if (tab.id !== activeTab) return null;
+            return (
+              <div key={tab.id} className="grid lg:grid-cols-12 gap-8 items-center">
+                {/* Left: Info details */}
+                <div className="lg:col-span-5 space-y-6">
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[#10b981]">{tab.subtitle}</span>
+                    <h3 className="serif text-3xl md:text-4xl font-bold mt-2 text-slate-900">{tab.title}</h3>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <p className="text-sm text-slate-600 leading-relaxed font-light">{tab.desc}</p>
+                    <div className="p-4 rounded-xl border border-purple-100 bg-purple-50/20">
+                      <span className="text-xs font-bold text-[#7c3aed] block mb-1">💼 Business Value</span>
+                      <p className="text-xs text-slate-600 leading-relaxed font-light">{tab.usefulness}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-100">
+                    <div>
+                      <div className="text-3xl font-extrabold text-[#7c3aed]">{tab.metric}</div>
+                      <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider">{tab.metricLabel}</div>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-3">
+                    {tab.points.map((pt, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-xs text-slate-600">
+                        <svg className="w-4.5 h-4.5 text-[#10b981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Right: Beautiful Browser Frame containing the screenshot */}
+                <div className="lg:col-span-7">
+                  <div className="relative rounded-2xl border border-slate-200 overflow-hidden shadow-2xl bg-slate-50 p-2.5">
+                    {/* Browser Dots */}
+                    <div className="flex items-center gap-1.5 mb-2.5 px-2">
+                      <div className="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+                      <div className="text-[10px] text-slate-400 ml-4 font-mono select-none">https://app.easypharma.in/{tab.id}</div>
+                    </div>
+                    {/* Image */}
+                    <img
+                      src={tab.image}
+                      alt={tab.title}
+                      className="w-full h-auto rounded-lg border border-slate-100 shadow-md"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
       {/* ── COMPARISON TABLE ── */}
-      <section id="comparison" className="py-28 px-6 border-t border-white/5" style={{ background: 'rgba(4, 19, 36, 0.6)' }}>
+      <section id="comparison" className="py-28 px-6 border-t border-slate-100 bg-slate-50/50">
         <div className="max-w-6xl mx-auto">
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
             <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Side-by-Side Comparison</motion.p>
-            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold text-slate-900">
               EasyPharma <span className="grad-text">vs Traditional Software</span>
             </motion.h2>
-            <motion.p variants={fadeUp} className="mt-4 text-white/50 text-base max-w-2xl mx-auto font-light">
+            <motion.p variants={fadeUp} className="mt-4 text-slate-600 text-base max-w-2xl mx-auto font-light">
               See why forward-thinking pharmacy owners choose EasyPharma over legacy Windows desktop applications.
             </motion.p>
           </motion.div>
 
           {/* Desktop & Tablet Table */}
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="hidden md:block overflow-hidden rounded-2xl border border-white/10" style={{ background: 'rgba(255,255,255,0.02)' }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="hidden md:block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/10" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                  <th className="py-5 px-6 text-sm font-semibold text-white/70 w-1/3">Feature / Capability</th>
-                  <th className="py-5 px-6 text-sm font-bold text-white w-1/3" style={{ background: 'rgba(0,200,150,0.12)', borderLeft: '1px solid rgba(0,200,150,0.2)', borderRight: '1px solid rgba(0,200,150,0.2)' }}>
+                <tr className="border-b border-slate-200 bg-slate-50">
+                  <th className="py-5 px-6 text-sm font-semibold text-slate-600 w-1/3">Feature / Capability</th>
+                  <th className="py-5 px-6 text-sm font-bold text-slate-900 w-1/3" style={{ background: 'rgba(124,58,237,0.04)', borderLeft: '1px solid rgba(124,58,237,0.1)', borderRight: '1px solid rgba(124,58,237,0.1)' }}>
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
+                      <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
                         <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
                       </div>
-                      <span className="text-base text-[#00c896]">EasyPharma</span>
+                      <span className="text-base text-[#7c3aed]">EasyPharma</span>
                       <span className="pill-tag ml-auto text-[9px] py-0.5 px-2">Recommended</span>
                     </div>
                   </th>
-                  <th className="py-5 px-6 text-sm font-semibold text-white/40 w-1/3">Traditional Software</th>
+                  <th className="py-5 px-6 text-sm font-semibold text-slate-500 w-1/3">Traditional Software</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-slate-100">
                 {COMPARISON_FEATURES.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
-                    <td className="py-4 px-6 text-sm font-medium text-white/90">
+                  <tr key={idx} className="hover:bg-slate-50/30 transition-colors">
+                    <td className="py-4 px-6 text-sm font-medium text-slate-800">
                       {row.feature}
                       {row.highlight && (
-                        <span className="ml-2.5 inline-block text-[10px] uppercase font-semibold text-[#00c896] bg-[#00c896]/10 px-2 py-0.5 rounded-full border border-[#00c896]/20">Key Advantage</span>
+                        <span className="ml-2.5 inline-block text-[10px] uppercase font-semibold text-[#7c3aed] bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100">Key Advantage</span>
                       )}
                     </td>
-                    <td className="py-4 px-6 text-sm text-emerald-300 font-medium bg-[#00c896]/[0.06] border-x border-[#00c896]/20">
+                    <td className="py-4 px-6 text-sm text-[#0f766e] font-medium bg-[#10b981]/[0.03] border-x border-[#10b981]/10">
                       <div className="flex items-start gap-2.5">
-                        <svg className="w-5 h-5 text-[#00c896] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="w-5 h-5 text-[#10b981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
                         <span>{row.easyPharma}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-sm text-white/40 font-light">
+                    <td className="py-4 px-6 text-sm text-slate-500 font-light">
                       <div className="flex items-start gap-2.5">
-                        <svg className="w-5 h-5 text-rose-400/60 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="w-5 h-5 text-rose-500/80 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                         </svg>
                         <span>{row.regular}</span>
@@ -371,27 +549,27 @@ export default function Home() {
           {/* Mobile Cards View */}
           <div className="md:hidden space-y-4">
             {COMPARISON_FEATURES.map((row, idx) => (
-              <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: idx * 0.05 }} className="rounded-xl p-5 border border-white/10" style={{ background: 'rgba(255,255,255,0.03)' }}>
+              <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: idx * 0.05 }} className="rounded-xl p-5 border border-slate-200 bg-white shadow-sm">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-semibold text-sm text-white">{row.feature}</h4>
+                  <h4 className="font-semibold text-sm text-slate-800">{row.feature}</h4>
                   {row.highlight && <span className="pill-tag text-[9px] px-2 py-0.5">Key Advantage</span>}
                 </div>
                 <div className="space-y-3 text-xs">
-                  <div className="p-3 rounded-lg border border-[#00c896]/30 bg-[#00c896]/10 text-emerald-300 flex items-start gap-2">
-                    <svg className="w-4 h-4 text-[#00c896] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <div className="p-3 rounded-lg border border-purple-100 bg-purple-50/30 text-purple-700 flex items-start gap-2">
+                    <svg className="w-4 h-4 text-[#7c3aed] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
                     <div>
-                      <span className="font-semibold text-[#00c896] block mb-0.5">EasyPharma</span>
+                      <span className="font-semibold text-[#7c3aed] block mb-0.5">EasyPharma</span>
                       {row.easyPharma}
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg border border-white/5 bg-white/[0.02] text-white/50 flex items-start gap-2">
-                    <svg className="w-4 h-4 text-rose-400/60 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <div className="p-3 rounded-lg border border-slate-100 bg-slate-50/50 text-slate-500 flex items-start gap-2">
+                    <svg className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                     </svg>
                     <div>
-                      <span className="font-semibold text-white/40 block mb-0.5">Traditional Software</span>
+                      <span className="font-semibold text-slate-400 block mb-0.5">Traditional Software</span>
                       {row.regular}
                     </div>
                   </div>
@@ -403,22 +581,22 @@ export default function Home() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section id="how" className="py-24 px-6 border-y border-white/5" style={{ background: 'rgba(0,200,150,0.03)' }}>
+      <section id="how" className="py-24 px-6 border-y border-slate-100" style={{ background: 'rgba(124,58,237,0.02)' }}>
         <div className="max-w-5xl mx-auto">
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
             <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Onboarding Journey</motion.p>
-            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Seamless Onboarding <span className="grad-text">in 4 Steps</span></motion.h2>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold text-slate-900">Seamless Onboarding <span className="grad-text">in 4 Steps</span></motion.h2>
           </motion.div>
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {STEPS.map((s, i) => (
               <motion.div key={s.n} variants={fadeUp} className="relative">
                 {i < STEPS.length - 1 && (
-                  <div className="hidden lg:block absolute top-7 left-full w-full h-px border-t border-dashed border-white/10 z-0"/>
+                  <div className="hidden lg:block absolute top-7 left-full w-full h-px border-t border-dashed border-slate-200 z-0"/>
                 )}
                 <div className="relative z-10">
-                  <div className="serif text-4xl font-bold mb-3" style={{ color: 'rgba(0,200,150,0.25)' }}>{s.n}</div>
-                  <h3 className="font-semibold text-white mb-2">{s.title}</h3>
-                  <p className="text-sm text-white/40 leading-relaxed font-light">{s.desc}</p>
+                  <div className="serif text-4xl font-bold mb-3" style={{ color: 'rgba(124,58,237,0.15)' }}>{s.n}</div>
+                  <h3 className="font-semibold text-slate-900 mb-2">{s.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed font-light">{s.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -431,19 +609,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
             <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Why EasyPharma</motion.p>
-            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Built for <span className="grad-text">Indian Pharmacies</span></motion.h2>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold text-slate-900">Built for <span className="grad-text">Indian Pharmacies</span></motion.h2>
           </motion.div>
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {WHY.map((w) => (
-              <motion.div key={w.title} variants={fadeUp} className="card-glow flex gap-4 p-5 rounded-2xl border border-white/5 transition-all duration-300" style={{ background: 'rgba(255,255,255,0.02)' }}>
-                <div className="w-8 h-8 min-w-[32px] rounded-full flex items-center justify-center mt-0.5" style={{ background: 'rgba(0,200,150,0.12)' }}>
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="#00c896" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <motion.div key={w.title} variants={fadeUp} className="card-glow flex gap-4 p-5 rounded-2xl border border-slate-100 transition-all duration-300 bg-white">
+                <div className="w-8 h-8 min-w-[32px] rounded-full flex items-center justify-center mt-0.5" style={{ background: 'rgba(124,58,237,0.06)' }}>
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-sm text-white mb-1">{w.title}</h4>
-                  <p className="text-xs text-white/40 leading-relaxed font-light">{w.desc}</p>
+                  <h4 className="font-semibold text-sm text-slate-900 mb-1">{w.title}</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-light">{w.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -452,38 +630,38 @@ export default function Home() {
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section id="testimonials" className="py-28 px-6 border-t border-white/5" style={{ background: 'rgba(0,168,208,0.02)' }}>
+      <section id="testimonials" className="py-28 px-6 border-t border-slate-100 bg-slate-50/50">
         <div className="max-w-6xl mx-auto">
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16">
             <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Success Stories</motion.p>
-            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold">Trusted by <span className="grad-text">Pharmacists</span></motion.h2>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold text-slate-900">Trusted by <span className="grad-text">Pharmacists</span></motion.h2>
           </motion.div>
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((t, index) => (
-              <motion.div key={index} variants={fadeUp} className="card-glow rounded-2xl p-8 border border-white/5 transition-all duration-300 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
+              <motion.div key={index} variants={fadeUp} className="card-glow rounded-2xl p-8 border border-slate-100 transition-all duration-300 relative overflow-hidden bg-white">
                 {/* Decorative quote icon */}
-                <div className="absolute -top-4 -right-2 text-9xl font-serif text-white/5 select-none pointer-events-none">“</div>
+                <div className="absolute -top-4 -right-2 text-9xl font-serif text-slate-100 select-none pointer-events-none">“</div>
                 
                 {/* Rating stars */}
-                <div className="flex gap-1 mb-4 text-emerald-400">
+                <div className="flex gap-1 mb-4 text-[#10b981]">
                   {[...Array(t.rating)].map((_, i) => (
                     <span key={i} className="text-lg">★</span>
                   ))}
                 </div>
                 
                 {/* Quote text */}
-                <p className="text-sm text-white/70 leading-relaxed font-light italic mb-6 relative z-10">
+                <p className="text-sm text-slate-600 leading-relaxed font-light italic mb-6 relative z-10">
                   "{t.quote}"
                 </p>
                 
                 {/* Author Info */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-[#040d1a]" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
                     {t.author.charAt(0) || 'P'}
                   </div>
                   <div>
-                    <h4 className="font-semibold text-sm text-white">{t.author}</h4>
-                    <p className="text-xs text-white/45">{t.role} • {t.location}</p>
+                    <h4 className="font-semibold text-sm text-slate-900">{t.author}</h4>
+                    <p className="text-xs text-slate-500">{t.role} • {t.location}</p>
                   </div>
                 </div>
               </motion.div>
@@ -495,14 +673,14 @@ export default function Home() {
       {/* ── COMPLIANCE ── */}
       <section id="compliance" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="rounded-3xl p-10 md:p-14 text-center border border-white/8" style={{ background: 'linear-gradient(135deg, rgba(0,200,150,0.08) 0%, rgba(0,168,208,0.06) 100%)' }}>
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ background: 'rgba(0,200,150,0.15)', border: '1px solid rgba(0,200,150,0.3)' }}>
-              <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="#00c896" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="rounded-3xl p-10 md:p-14 text-center border border-purple-100 bg-gradient-to-br from-purple-50/30 to-emerald-50/20 shadow-sm">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.1)' }}>
+              <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
             </div>
-            <h2 className="serif text-3xl md:text-4xl font-bold mb-4">100% Regulatory Compliant</h2>
-            <p className="text-white/50 text-base max-w-xl mx-auto leading-relaxed font-light mb-8">EasyPharma keeps your pharmacy audit-ready at all times — all government-mandated records are maintained automatically without any extra effort on your part.</p>
+            <h2 className="serif text-3xl md:text-4xl font-bold mb-4 text-slate-900">100% Regulatory Compliant</h2>
+            <p className="text-slate-600 text-base max-w-xl mx-auto leading-relaxed font-light mb-8">EasyPharma keeps your pharmacy audit-ready at all times — all government-mandated records are maintained automatically without any extra effort on your part.</p>
             <div className="flex flex-wrap justify-center gap-3">
               {BADGES.map(b => (
                 <span key={b} className="pill-tag">{b}</span>
@@ -513,17 +691,17 @@ export default function Home() {
       </section>
 
       {/* ── CONTACT ── */}
-      <section id="contact" className="py-28 px-6 border-t border-white/5">
+      <section id="contact" className="py-28 px-6 border-t border-slate-100 bg-slate-50/30">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }}>
             <motion.p variants={fadeUp} className="pill-tag inline-block mb-4">Get Started Today</motion.p>
-            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold mb-4">Start Your <span className="grad-text">Free Trial</span></motion.h2>
-            <motion.p variants={fadeUp} className="text-white/45 text-base mb-10 font-light">No setup fees. No contracts. 30-day free trial. Cancel anytime.</motion.p>
+            <motion.h2 variants={fadeUp} className="serif text-4xl md:text-5xl font-bold mb-4 text-slate-900">Start Your <span className="grad-text">Free Trial</span></motion.h2>
+            <motion.p variants={fadeUp} className="text-slate-500 text-base mb-10 font-light">No setup fees. No contracts. 30-day free trial. Cancel anytime.</motion.p>
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a href="mailto:farooqaziz1993@gmail.com?subject=EasyPharma Free Demo Request" className="px-8 py-4 rounded-xl text-base font-semibold text-[#040d1a] transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)', boxShadow: '0 0 30px rgba(0,200,150,0.25)' }}>
+              <a href="mailto:farooqaziz1993@gmail.com?subject=EasyPharma Free Demo Request" className="px-8 py-4 rounded-xl text-base font-semibold text-white transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)', boxShadow: '0 10px 30px rgba(124,58,237,0.15)' }}>
                 Book a Free Demo →
               </a>
-              <a href="tel:+919657847644" className="px-8 py-4 rounded-xl text-base font-medium text-white/70 border border-white/10 hover:border-white/30 hover:text-white transition-all">
+              <a href="tel:+919657847644" className="px-8 py-4 rounded-xl text-base font-medium text-slate-600 border border-slate-200 hover:border-slate-350 hover:text-slate-900 transition-all bg-white">
                 Call Us Now
               </a>
             </motion.div>
@@ -535,11 +713,11 @@ export default function Home() {
               ].map(({ icon, label, href }) => (
                 <motion.div key={label} variants={fadeUp}>
                   {href ? (
-                    <a href={href} className="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors">
+                    <a href={href} className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-950 transition-colors">
                       <span>{icon}</span><span>{label}</span>
                     </a>
                   ) : (
-                    <span className="flex items-center gap-2 text-sm text-white/50"><span>{icon}</span><span>{label}</span></span>
+                    <span className="flex items-center gap-2 text-sm text-slate-500"><span>{icon}</span><span>{label}</span></span>
                   )}
                 </motion.div>
               ))}
@@ -549,20 +727,20 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-white/5 py-8 px-6">
+      <footer className="border-t border-slate-100 py-8 px-6 bg-white">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#00c896,#00a8d0)' }}>
-              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
               </svg>
             </div>
-            <span className="serif font-bold text-white/80">Easy<span style={{ color: '#00c896' }}>Pharma</span></span>
+            <span className="serif font-bold text-slate-800">Easy<span style={{ color: '#7c3aed' }}>Pharma</span></span>
           </div>
-          <p className="text-xs text-white/25">© {new Date().getFullYear()} EasyPharma by MMR Tech Solution. All rights reserved.</p>
+          <p className="text-xs text-slate-400">© {new Date().getFullYear()} EasyPharma by MMR Tech Solution. All rights reserved.</p>
           <div className="flex gap-5">
             {NAV_LINKS.slice(0, 3).map(l => (
-              <a key={l.href} href={l.href} className="text-xs text-white/30 hover:text-white/70 transition-colors">{l.label}</a>
+              <a key={l.href} href={l.href} className="text-xs text-slate-400 hover:text-slate-700 transition-colors">{l.label}</a>
             ))}
           </div>
         </div>
