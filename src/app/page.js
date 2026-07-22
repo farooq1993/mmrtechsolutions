@@ -334,8 +334,10 @@ export default function Home() {
           <div className="absolute bottom-10 right-10 w-[300px] h-[300px] rounded-full opacity-[0.03]" style={{ background: 'radial-gradient(circle, #10b981 0%, transparent 70%)' }}/>
         </div>
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex flex-wrap justify-center gap-2 mb-4">
             <span className="pill-tag">India's #1 Pharmacy Management Software</span>
+            <span className="pill-tag" style={{ background: 'rgba(16, 185, 129, 0.08)', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.15)' }}>🚀 Launched June 2026</span>
+            <span className="pill-tag" style={{ background: 'rgba(124, 58, 237, 0.08)', color: '#7c3aed', borderColor: 'rgba(124, 58, 237, 0.15)' }}>📈 6+ Pharmacies Onboarded in Month 1</span>
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22,1,0.36,1] }} className="serif mt-6 text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight text-slate-900">
             Run Your Pharmacy<br /><span className="grad-text">Smarter.</span>
@@ -351,11 +353,16 @@ export default function Home() {
               Explore Features
             </a>
           </motion.div>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.8 }} className="mt-16 grid grid-cols-3 gap-6 max-w-lg mx-auto">
-            {[["GST", "Compliant"], ["CDSCO", "Ready"], ["24/7", "Cloud Access"]].map(([v, l]) => (
-              <div key={l} className="text-center">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.8 }} className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+            {[
+              ["June 2026", "Official Launch"],
+              ["6+ Stores", "Onboarded in Month 1"],
+              ["100%", "Cloud Uptime"],
+              ["CDSCO", "Ready & Compliant"]
+            ].map(([v, l]) => (
+              <div key={l} className="text-center p-4 rounded-xl border border-slate-100 bg-slate-50/30">
                 <div className="serif text-2xl font-bold" style={{ color: '#7c3aed' }}>{v}</div>
-                <div className="text-xs text-slate-400 mt-1 uppercase tracking-widest">{l}</div>
+                <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">{l}</div>
               </div>
             ))}
           </motion.div>
