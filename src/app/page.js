@@ -8,9 +8,6 @@ const NAV_LINKS = [
   { label: "Product Tour", href: "#tour" },
   { label: "Comparison", href: "#comparison" },
   { label: "How It Works", href: "#how" },
-  { label: "Why Us", href: "#why" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Compliance", href: "#compliance" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
@@ -322,26 +319,26 @@ export default function Home() {
       `}</style>
 
       {/* ── NAVBAR ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-100" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(16px)' }}>
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-100" style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)' }}>
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+          <a href="#" className="flex items-center gap-2.5 shrink-0">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
               </svg>
             </div>
-            <span className="serif font-bold text-xl text-slate-900">Easy<span style={{ color: '#7c3aed' }}>Pharma</span></span>
+            <span className="serif font-bold text-xl text-slate-900 shrink-0 select-none">Easy<span style={{ color: '#7c3aed' }}>Pharma</span></span>
           </a>
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-4 lg:gap-8 overflow-hidden shrink-0">
             {NAV_LINKS.map(l => (
-              <a key={l.href} href={l.href} className="nav-link text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">{l.label}</a>
+              <a key={l.href} href={l.href} className="nav-link text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors shrink-0">{l.label}</a>
             ))}
           </div>
-          <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
+          <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-transform hover:scale-105 shrink-0" style={{ background: 'linear-gradient(135deg,#7c3aed,#10b981)' }}>
             Free Demo
           </a>
-          <button className="md:hidden text-slate-700" onClick={() => setMenuOpen(!menuOpen)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <button className="md:hidden text-slate-700 shrink-0" onClick={() => setMenuOpen(!menuOpen)}>
+            <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               {menuOpen ? <path d="M6 18L18 6M6 6l12 12"/> : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>}
             </svg>
           </button>
