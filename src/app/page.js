@@ -792,7 +792,7 @@ export default function Home() {
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
             </div>
-            <h2 className="serif text-3xl md:text-4xl font-bold mb-4 text-slate-900">100% Regulatory Compliant</h2>
+            <h2 className="serif text-3xl md:text-4xl font-bold mb-4 text-slate-900">Fully Audit-Ready & Compliant</h2>
             <p className="text-slate-600 text-base max-w-xl mx-auto leading-relaxed font-light mb-8">EasyPharma keeps your pharmacy audit-ready at all times — all government-mandated records are maintained automatically without any extra effort on your part.</p>
             <div className="flex flex-wrap justify-center gap-3">
               {BADGES.map(b => (

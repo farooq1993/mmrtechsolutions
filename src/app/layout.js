@@ -2,14 +2,14 @@ import "./globals.css";
 
 export const metadata = {
   title: "EasyPharma — India's Smartest Pharmacy Management Software",
-  description: "Complete pharmacy management: GST billing, drug inventory, prescription tracking, patient CRM and analytics. CDSCO compliant. Free 30-day trial.",
+  description: "Smart POS & Inventory Solution for Pharmacies: GST billing, drug inventory, prescription tracking, patient CRM and analytics. CDSCO compliant. Free 30-day trial.",
   keywords: "pharmacy management software, pharmacy POS, drug inventory, GST billing pharmacy, CDSCO compliant, prescription management India, chemist billing software, medical store software",
   alternates: {
     canonical: "https://mmrtechsolutions.vercel.app",
   },
   openGraph: {
     title: "EasyPharma — India's Smartest Pharmacy Management Software",
-    description: "Complete pharmacy management: GST billing, drug inventory, prescription tracking, patient CRM and analytics. CDSCO compliant.",
+    description: "Smart POS & Inventory Solution for Pharmacies: GST billing, drug inventory, prescription tracking, patient CRM and analytics. CDSCO compliant.",
     url: "https://mmrtechsolutions.vercel.app",
     siteName: "EasyPharma",
     images: [
@@ -26,7 +26,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "EasyPharma — India's Smartest Pharmacy Management Software",
-    description: "Complete pharmacy management: GST billing, drug inventory, prescription tracking, patient CRM and analytics.",
+    description: "Smart POS & Inventory Solution for Pharmacies: GST billing, drug inventory, prescription tracking, patient CRM and analytics.",
     images: ["https://mmrtechsolutions.vercel.app/dashboard.png"],
   },
 };
@@ -42,7 +42,7 @@ const jsonLd = {
     "price": "0",
     "priceCurrency": "INR",
   },
-  "description": "Complete pharmacy management software for Indian pharmacies: GST billing, drug inventory, prescription tracking, patient CRM and analytics. CDSCO compliant.",
+  "description": "Smart POS & Inventory Solution for Pharmacies: GST billing, drug inventory, prescription tracking, patient CRM and analytics. CDSCO compliant.",
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "4.9",
